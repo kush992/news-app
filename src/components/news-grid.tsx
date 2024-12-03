@@ -2,10 +2,15 @@
 
 import { NewsCard } from '@/components/news-card';
 import { NewsSkeletonGrid } from '@/components/news-skeleton';
-import { useNews } from '../hooks/use-news';
+
 import { Category } from '@/types/news';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
+import { useInView } from 'react-intersection-observer';
+import { useInfiniteQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { fetchNews } from '@/lib/actions/fetch-news';
 
 interface NewsGridProps {
 	category: Category;
@@ -13,7 +18,21 @@ interface NewsGridProps {
 }
 
 export function NewsGrid({ category, country }: NewsGridProps) {
-	const { data, isLoading, isError, error } = useNews(category, country);
+	const { ref, inView } = useInView();
+
+	const { data, isLoading, isError, error, fetchNextPage, hasNextPage } = useInfiniteQuery({
+		queryKey: ['news', category, country],
+		queryFn: ({ pageParam = 1 }) => fetchNews(category, country, pageParam),
+		getNextPageParam: (lastPage) => lastPage.nextPage ?? false,
+		initialPageParam: 1,
+	});
+
+	useEffect(() => {
+		if (inView && hasNextPage) {
+			console.log('fetching next page');
+			fetchNextPage();
+		}
+	}, [inView, fetchNextPage, hasNextPage]);
 
 	if (isLoading) {
 		return <NewsSkeletonGrid />;
@@ -29,11 +48,16 @@ export function NewsGrid({ category, country }: NewsGridProps) {
 		);
 	}
 
+	console.log(data);
+
 	return (
-		<div className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
-			{data?.results.map((article) => (
-				<NewsCard key={article.article_id} article={article} />
-			))}
-		</div>
+		<>
+			<div ref={ref} className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+				{data?.pages?.map((page) => page.results?.map((article) => <NewsCard key={article.article_id} article={article} />))}
+			</div>
+			<Button onClick={() => fetchNextPage()} disabled={!hasNextPage} className='inline-flex justify-center'>
+				Next page
+			</Button>
+		</>
 	);
 }

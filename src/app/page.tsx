@@ -1,10 +1,10 @@
 import { SubHeader } from '@/components/sub-header';
-import { NewsGrid } from '@/components/news-grid';
 import { CryptoNews } from '@/components/crypto-news';
 import { ArchiveNewsList } from '@/components/archive-news-list';
 import { CountrySelector } from '@/components/country-selector';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PageProps } from '../../.next/types/app/page';
+import { NewsGrid } from '@/components/news-grid';
 
 export default async function Home({ searchParams }: PageProps) {
 	const { category, country } = await searchParams;
