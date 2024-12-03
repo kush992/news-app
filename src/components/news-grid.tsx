@@ -10,7 +10,7 @@ import { useInView } from 'react-intersection-observer';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { fetchNews } from '@/lib/actions/fetch-news';
+import { fetchNews } from '@/lib/api';
 
 interface NewsGridProps {
 	category: Category;
@@ -55,7 +55,7 @@ export function NewsGrid({ category, country }: NewsGridProps) {
 			<div ref={ref} className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
 				{data?.pages?.map((page) => page.results?.map((article) => <NewsCard key={article.article_id} article={article} />))}
 			</div>
-			<Button onClick={() => fetchNextPage()} disabled={!hasNextPage} className='inline-flex justify-center'>
+			<Button onClick={() => fetchNextPage()} disabled={!hasNextPage} className='my-4'>
 				Next page
 			</Button>
 		</>

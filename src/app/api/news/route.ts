@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { Category, NewsResponse } from '@/types/news';
+import { Category } from '@/types/news';
 
 export async function GET(request: NextRequest) {
 	const searchParams = request.nextUrl.searchParams;
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
 	try {
 		const url = new URL(`https://newsdata.io/api/1/news?apikey=${NEWSDATA_API_KEY}&language=en&category=${category}`);
 
-		if (page && Number(page) > 0) {
+		if (page && Number(page) > 2) {
 			url.searchParams.set('page', page);
 		}
 
@@ -27,9 +27,11 @@ export async function GET(request: NextRequest) {
 		const response = await fetch(url);
 
 		console.log('url', url);
-		console.log(await response.json());
+		// console.log(await response.json());
 
 		if (!response.ok) {
+			console.error('Failed to fetch news:', response.statusText);
+			console.error('Error Object:', await response.json());
 			throw new Error('Failed to fetch news');
 		}
 
