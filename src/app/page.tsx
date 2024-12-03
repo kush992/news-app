@@ -10,7 +10,7 @@ export default async function Home({ searchParams }: PageProps) {
 	const { category, country } = await searchParams;
 
 	return (
-		<main className='container py-6 space-y-6 mx-auto px-4 md:px-0'>
+		<main className='container py-6 space-y-6 mx-auto px-4 lg:px-0'>
 			<div className='flex justify-between items-center'>
 				<h1 className='text-3xl font-bold tracking-tight'>Latest News</h1>
 				<CountrySelector />

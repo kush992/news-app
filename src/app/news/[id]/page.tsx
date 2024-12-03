@@ -30,7 +30,7 @@ export default async function NewsPage({ params }: PageProps) {
 	if (!article) notFound();
 
 	return (
-		<article className='container mx-auto px-4 py-8 md:px-0'>
+		<article className='container mx-auto px-4 py-8 lg:px-0'>
 			<h1 className='text-3xl font-bold mb-4'>{article.title}</h1>
 			<div className='mb-4 text-sm text-gray-600 dark:text-gray-400'>
 				<time dateTime={article.pubDate}>{formatDate(article.pubDate)}</time>

@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function AboutPage() {
 	return (
-		<div className='container py-12 mx-auto px-4 md:px-0'>
+		<div className='container py-12 mx-auto px-4 lg:px-0'>
 			<h1 className='text-4xl font-bold mb-8 text-center'>About NewsApp</h1>
 
 			<div className='grid gap-8 md:grid-cols-2 items-center mb-12'>

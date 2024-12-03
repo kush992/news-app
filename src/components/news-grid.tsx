@@ -52,7 +52,7 @@ export function NewsGrid({ category, country }: NewsGridProps) {
 
 	return (
 		<>
-			<div ref={ref} className='grid gap-4 md:grid-cols-2 lg:grid-cols-3'>
+			<div ref={ref} className='grid gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
 				{data?.pages?.map((page) => page.results?.map((article) => <NewsCard key={article.article_id} article={article} />))}
 			</div>
 			<Button onClick={() => fetchNextPage()} disabled={!hasNextPage} className='my-4'>
